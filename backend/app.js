@@ -1,13 +1,12 @@
 'use strict'
 
-var express = require('express')
-var bodyParser = require('body-parser')
+const express = require('express')
+const bodyParser = require('body-parser')
 
-var app = express()
+const app = express()
 
 //Cargar archivos de rutas
-var roomRoutes = require('./routes/room')
-
+const roomRoutes = require('./routes/room')
 
 //Middleware
 app.use(bodyParser.urlencoded({extended:false}))
@@ -24,6 +23,7 @@ app.use((req, res, next) => {
 
 //Rutas
 app.use('/api', roomRoutes)
+app.use(express.static('../public'))
 
 
 app.get('/', (req,res) => {

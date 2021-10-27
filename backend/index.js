@@ -1,7 +1,7 @@
 'use strict'
-var app = require('./app')
+const app = require('./app')
 
-var mongoose = require('mongoose')
+const mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
 
 //settings
@@ -15,5 +15,5 @@ mongoose.connect('mongodb+srv://slug:slug123@cluster0.9anpc.mongodb.net/myFirstD
 
 //Creacion del servidor
 app.listen(app.get('port'), () => {
-    console.log('Servidor corriendo correctamente en url: localhost:' + app.get('port'))
+    console.log('Servidor corriendo correctamente en puerto:' + app.get('port'))
 })
