@@ -9,7 +9,7 @@ const app = express()
 const roomRoutes = require('./routes/room')
 
 //Middleware
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Configurar cabeceras y CORS
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 //Rutas
 //app.use('/api', roomRoutes)
-app.use(express.static('../public'))
+app.use('../', express.static('public'))
 
 
 /*app.get('/', (req,res) => {
@@ -31,12 +31,12 @@ app.use(express.static('../public'))
         "<H1>Pagina inicio API</H1>"
     )
 })*/
-app.get('/test', (req,res) => {
+app.get('/test', (req, res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"
     })
 })
-app.post('/imprimir/:id', (req,res) => {
+app.post('/imprimir/:id', (req, res) => {
     console.log("Imprimir valor Body " + req.body.valor)
     console.log("Imprimir nombre query " + req.query.nombre)
     console.log("Imprimir id params " + req.params.id)
