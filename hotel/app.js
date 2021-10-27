@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 });
 
 //Rutas
-//app.use('/api', roomRoutes)
-//app.use('/public', express.static('/public/public'))
+app.use('/api', roomRoutes)
+app.use(express.static('public'));
 
 app.get('/', (req,res) => {
     res.status(200).send(
