@@ -4,7 +4,9 @@ var port = 3700
 
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/hotel')
+
+//mongoose.connect('mongodb://localhost:27017/hotel')
+mongoose.connect('mongodb+srv://slug:slug123@cluster0.9anpc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
     .then(() => {
         console.log('Conexion MongoDB establecida con exito')
         //Creacion del servidor
