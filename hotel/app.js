@@ -23,12 +23,12 @@ app.use((req, res, next) => {
 
 //Rutas
 //app.use('/api', roomRoutes)
-//app.use('/public', express.static('/public/public'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.get('/', (req,res) => {
     res.status(200).send(
-        res.render('../public/index')
+        "<H1>Pagina inicio API</H1>"
     )
 })
 app.get('/test', (req, res) => {
