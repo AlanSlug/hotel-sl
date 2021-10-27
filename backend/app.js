@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 app.use('/api', roomRoutes)
 
 
-app.get('/', (res) => {
+app.get('/', (req,res) => {
     res.status(200).send(
         "<H1>Pagina inicio API</H1>"
     )
