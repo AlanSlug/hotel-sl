@@ -2,11 +2,11 @@
   "name": "api-rest-hotel",
   "version": "1.0.0",
   "description": "api rest para sistema de hotel",
-  "main": "backend/index.js",
+  "main": "hotel/index.js",
   "scripts": {
     "dev": "next",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon backend/index.js",
+    "start": "hotel/index.js",
     "heroku-postbuild": "npm run build" 
   },
   "author": "Alan Vega",

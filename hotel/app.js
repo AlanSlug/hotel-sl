@@ -2,7 +2,6 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-
 const app = express()
 
 //Cargar archivos de rutas
@@ -23,7 +22,7 @@ app.use((req, res, next) => {
 
 //Rutas
 //app.use('/api', roomRoutes)
-app.use(express.static(path.join(__dirname, 'public')))
+//app.use('/public', express.static('/public/public'))
 
 
 app.get('/', (req,res) => {
