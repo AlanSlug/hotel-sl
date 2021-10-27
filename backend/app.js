@@ -23,14 +23,14 @@ app.use((req, res, next) => {
 
 //Rutas
 //app.use('/api', roomRoutes)
-app.use('/', express.static('public'))
+//app.use('/public', express.static('/public/public'))
 
 
-/*app.get('/', (req,res) => {
+app.get('/', (req,res) => {
     res.status(200).send(
-        "<H1>Pagina inicio API</H1>"
+        res.render('../public/index')
     )
-})*/
+})
 app.get('/test', (req, res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"
