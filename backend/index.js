@@ -1,16 +1,20 @@
 'use strict'
 var app = require('./app')
-var port = 3000
+var port = process.env.PORT
 
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
+
+//settings
+app.set('port', process.env.PORT || 3000)
 
 //mongoose.connect('mongodb://localhost:27017/hotel')
 mongoose.connect('mongodb+srv://slug:slug123@cluster0.9anpc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
     .then(() => {
         console.log('Conexion MongoDB establecida con exito')
-        //Creacion del servidor
-        app.listen(port, ()=> {
-            console.log('Servidor corriendo correctamente en url: localhost:3700')
-        })
-    }).catch(err => console.log('Error en la conexion MongoDB ' + err))   
+    }).catch(err => console.log('Error en la conexion MongoDB ' + err))
+
+//Creacion del servidor
+app.listen(app.get('port'), () => {
+    console.log('Servidor corriendo correctamente en url: localhost:' + port)
+})
