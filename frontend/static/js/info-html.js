@@ -1,5 +1,5 @@
 'use strict'
-const url = '/api/'
+const url = 'http://localhost:3700/api/'
 var idHabitacion
 
 document.getElementById('boton-eliminar').addEventListener("click", deleteRooms, false)
