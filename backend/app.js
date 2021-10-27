@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 //Rutas
-app.use('/api', roomRoutes)
+//app.use('/api', roomRoutes)
 app.use(express.static('../public'))
 
 
