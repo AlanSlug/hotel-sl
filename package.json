@@ -8,7 +8,7 @@
     "build": "next build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/index.js next start -p $PORT",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build" 
   },
   "author": "Alan Vega",
   "license": "ISC",
