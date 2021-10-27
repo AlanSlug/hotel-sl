@@ -26,11 +26,11 @@ app.use((req, res, next) => {
 app.use(express.static('../public'))
 
 
-app.get('/', (req,res) => {
+/*app.get('/', (req,res) => {
     res.status(200).send(
         "<H1>Pagina inicio API</H1>"
     )
-})
+})*/
 app.get('/test', (req,res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"
