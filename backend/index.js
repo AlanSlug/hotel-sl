@@ -1,6 +1,6 @@
 'use strict'
 var app = require('./app')
-var port = 3700
+var port = 3000
 
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
@@ -13,4 +13,4 @@ mongoose.connect('mongodb+srv://slug:slug123@cluster0.9anpc.mongodb.net/myFirstD
         app.listen(port, ()=> {
             console.log('Servidor corriendo correctamente en url: localhost:3700')
         })
-    }).catch(err => console.log('Error en la conexion MongoDB ' + err))
+    }).catch(err => console.log('Error en la conexion MongoDB ' + err))   
