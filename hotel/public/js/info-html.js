@@ -163,7 +163,7 @@ function getRoom(id) {
     response.status = false
     response.rooms = {}
     let xhr = new XMLHttpRequest()
-    xhr.open("GET", url + 'room/' + id, false)
+    xhr.open("GET", url + '/room/' + id, false)
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let room = JSON.parse(xhr.responseText).room
@@ -187,7 +187,7 @@ function getRooms() {
             response.rooms = rooms
         }
     }
-    xhr.open("GET", url + 'rooms', false)
+    xhr.open("GET", url + '/rooms', false)
     xhr.send();
     return response
 }
@@ -197,7 +197,7 @@ function deleteRooms(idRoom) {
     response.status = false
     response.rooms = {}
     let xhr = new XMLHttpRequest()
-    xhr.open("DELETE", url + 'delete-room/' + idHabitacion, false)
+    xhr.open("DELETE", url + '/delete-room/' + idHabitacion, false)
     xhr.onreadystatechange = function () {
         console.log('readyState ' + xhr.readyState + ' status ' + xhr.status)
         if (xhr.readyState == 4 && xhr.status == 200) {
