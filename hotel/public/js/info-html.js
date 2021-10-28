@@ -1,5 +1,5 @@
 'use strict'
-const url = 'http://localhost:3700/api/'
+const url = 'https://apirest-hotel.herokuapp.com/'
 var idHabitacion
 
 document.getElementById('boton-eliminar').addEventListener("click", deleteRooms, false)
