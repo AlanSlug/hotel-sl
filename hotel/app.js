@@ -7,10 +7,16 @@ const app = express()
 //Cargar archivos de rutas
 const roomRoutes = require('./routes/room')
 
+//Motor de plantillas
+app.set('view engine', 'ejs')
+app.set('views', __dirname + '/views')
+
+app.use(express.static(__dirname + '/public'));
+
 //Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+ 
 // Configurar cabeceras y CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -21,14 +27,15 @@ app.use((req, res, next) => {
 });
 
 //Rutas
-app.use('/api', roomRoutes)
-app.use(express.static('public'));
-
-app.get('/', (req,res) => {
-    res.status(200).send(
-        "<H1>Pagina inicio API</H1>"
-    )
+//FRONT
+app.get('/', (req, res) => {
+    res.render("index")
 })
+app.use((req, res, next) => {
+    res.status(404).render("404")
+})
+//API
+app.use('/api', roomRoutes)
 app.get('/test', (req, res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"
