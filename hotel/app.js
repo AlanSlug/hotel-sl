@@ -26,11 +26,18 @@ app.use((req, res, next) => {
     next();
 });
 
-//Rutas
+/**RUTAS**/
 //FRONT
-app.get('/', (req, res) => {
-    res.render("index")
+app.get('', (req, res) => {
+    res.render("home")
 })
+app.get('/home', (req, res) => {
+    res.render("home")
+})
+app.get('/habitaciones', (req, res) => {
+    res.render("habitaciones")
+})
+
 //API
 app.use('/api', roomRoutes)
 app.get('/test', (req, res) => {
