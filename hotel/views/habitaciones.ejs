@@ -128,11 +128,9 @@
 						<div class="card-header">
 							<div class="card-actions float-end">
 								<div class="dropdown position-relative">
-									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
-										class="">
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-											viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-											stroke-linecap="round" stroke-linejoin="round"
+									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+											stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 											class="feather feather-more-horizontal align-middle">
 											<circle cx="12" cy="12" r="1"></circle>
 											<circle cx="19" cy="12" r="1"></circle>
@@ -144,64 +142,127 @@
 									</div>
 								</div>
 							</div>
-							<h5 class="card-title mb-0">SU002</h5>
+							<h5 class="card-title mb-0" id="tittle-modificar">Modificar habitación</h5>
 						</div>
 						<div class="card-body">
+							<form name="modificar" id="modificar" novalidate>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end">
+										<button class="btn btn-primary">
+											<i class="align-middle" data-feather="upload"></i>
+											Subir imagen
+										</button>
+									</label>
+								</div>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end ">Número de
+										habitación</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="mod-numero-habitacion">
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end">Disponibilidad</label>
+									<div class="col-sm-9">
+										<select class="form-control mb-3" id="mod-disponibilidad" name="disponibilidad">
+											<option selected="">Libre</option>
+											<option>Reservada</option>
+											<option>No disponible</option>
+											<option>Limpieza</option>
+										</select>
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end">Tipo de
+										habitación</label>
+									<div class="col-sm-9">
+										<select class="form-control mb-3" id="mod-tipo-habitacion" name="tipo-habitacion">
+											<option selected="">Sencilla</option>
+											<option>Doble</option>
+											<option>Suite</option>
+											<option>Precidencial</option>
+										</select>
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end">Precio</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control"
+											data-inputmask="'alias': 'numeric', 'digits': 2, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0'"
+											inputmode="decimal" id="mod-precio-habitacion" name="precio-habitacion" required>
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label class="col-form-label col-sm-3 text-sm-end">Descripción</label>
+									<div class="col-sm-9">
+										<textarea class="form-control" placeholder="Descripcion" rows="3" id="mod-descripcion" name="descripcion"
+											required></textarea>
+									</div>
+								</div>
+								<fieldset class="mb-3">
+									<div class="row">
+										<label class="col-form-label col-sm-3 text-sm-end pt-sm-0">Servicios</label>
+										<div class="col-sm-9">
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-wifi" name="wifi">
+												<i class="fas fa-wifi"></i>
+												<span class="form-check-label">Wifi</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-tv" name="tv">
+												<i class="fas fa-tv"></i>
+												<span class="form-check-label">TV</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-spa" name="spa">
+												<i class="fas fa-spa"></i>
+												<span class="form-check-label">SPA</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-shower" name="shower">
+												<i class="fas fa-shower"></i>
+												<span class="form-check-label">Agua Caliente</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-gym" name="gym">
+												<i class="fas fa-dumbbell"></i>
+												<span class="form-check-label">GYM</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-jacuzzi" name="jacuzzi">
+												<i class="fas fa-hot-tub"></i>
+												<span class="form-check-label">Jacuzzi</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-calefaccion" name="calefaccion">
+												<i class="fas fa-temperature-high"></i>
+												<span class="form-check-label">Calefaccion</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-pet" name="pet">
+												<i class="fas fa-paw"></i>
+												<span class="form-check-label">Pet friendly</span>
+											</label>
+											<label class="form-check m-0">
+												<input type="checkbox" class="form-check-input" id="mod-alberca" name="alberca">
+												<i class="fas fa-swimming-pool"></i>
+												<span class="form-check-label">Alberca</span>
+											</label>
+										</div>
+									</div>
+								</fieldset>
+							</form>
 							<div class="row g-0">
-								<div class="col-sm-3 col-xl-12 col-xxl-3 text-center">
-									<img src="img/avatars/avatar-3.jpg" width="64" height="64"
-										class="rounded-circle mt-2" alt="Angelica Ramos">
+								<div class="col-sm-9 col-xl-12 col-xxl-10">
 								</div>
-								<div class="col-sm-9 col-xl-12 col-xxl-9">
-									<strong>Descripción</strong>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-										eiusmod tempor incididunt ut labore et dolore
-										magna aliqua.</p>
-								</div>
-							</div>
-							<table class="table table-sm mt-2 mb-4">
-								<tbody>
-									<tr>
-									<tr>
-										<th>Disponibilidad</th>
-										<td><span class="badge bg-primary">Limpieza</span></td>
-									</tr>
-									<th>Tipo de habitación</th>
-									<td>Doble</td>
-									</tr>
-									<tr>
-										<th>Precio</th>
-										<td>$3800.00</td>
-									</tr>
-									<tr>
-										<th>Servicios</th>
-										<td>
-											<br>
-											<ul class="list-unstyled mb-0">
-												<li class="mb-1"><i class="align-middle" data-feather="wifi"></i>
-													<span class="align-middle">Wifi</span>
-												</li>
-
-												<li class="mb-1"><i class="align-middle" data-feather="tv"></i>
-													<span class="align-middle">TV</span>
-												</li>
-												<li class="mb-1"><i class="align-middle" data-feather="map"></i>
-													<span class="align-middle">map</span>
-												</li>
-											</ul>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="row g-0">
-								<div class="col-sm-9 col-xl-12 col-xxl-9">
-								</div>
-								<div class="col-sm-3 col-xl-12 col-xxl-3 text-center">
-									<button class="btn btn-primary"><i class="align-middle" data-feather="check"></i>
+								<div class="col-sm-3 col-xl-12 col-xxl-2 text-center">
+									<button class="btn btn-primary" id="mod-habitacion">
+										<i class="align-middle" data-feather="check"></i>
 										Guardar cambios
 									</button>
 								</div>
 							</div>
+							<br>
 						</div>
 					</div>
 					<div class="card panel-info-none" id="panel-agregar-habitacion">

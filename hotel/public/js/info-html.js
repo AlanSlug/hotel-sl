@@ -1,10 +1,15 @@
 'use strict'
+
 const url = 'https://apirest-hotel.herokuapp.com/api'
-var idHabitacion
+var idHabitacionDelete //guarda el id de la habitacion para eliminar
+var idHabitacionModificar //guarda el id de la habitacion para eliminar
 
 document.getElementById('boton-eliminar').addEventListener("click", deleteRooms, false)
+
 document.getElementById('agregar-habitacion').addEventListener("click", function () {
     document.getElementById('contenido').className = 'col-xl-8'
+    document.getElementById('panel-ver-habitacion').className = 'card panel-info-none'
+    document.getElementById('panel-modificar-habitacion').className = 'card panel-info-none'
     document.getElementById('panel-agregar-habitacion').className = 'card panel-info-show'
 }, false)
 /*document.getElementById('agregar-habitacion').addEventListener("click", function () {
@@ -35,8 +40,8 @@ function imprimirTabla() {
         let rooms = response.rooms.map(function (room) {
             room.disponibilidad = "<p class = '" + getClassDisponibilidad(room.disponibilidad) + "'>" + room.disponibilidad + "</p>"
             room.botones = "<i class='align-middle far fa-eye fa-lg  option-table' onclick = 'verHabitacion(\"" + room._id + "\")'></i>" +
-                "<i class='far fa-edit fa-lg  option-table'></i>" +
-                "<i class='far fa-trash-alt fa-lg option-table' data-bs-toggle='modal' data-bs-target='#modal-eliminar' onclick = 'idHabitacion = \"" + room._id + "\"'></i>"
+                "<i class='far fa-edit fa-lg  option-table' onclick = 'cargarmodificarHabitacion(\"" + room._id + "\")'></i>" +
+                "<i class='far fa-trash-alt fa-lg option-table' data-bs-toggle='modal' data-bs-target='#modal-eliminar' onclick = 'idHabitacionDelete = \"" + room._id + "\"'></i>"
             //room.botones = "<i class='align-middle far fa-eye fa-lg  option-table'></i><i class='far fa-edit fa-lg  option-table'></i><i class='far fa-trash-alt fa-lg option-table' onclick = 'deleteRoom(\""+room._id+"\")'></i>"
             return room
         });
@@ -68,11 +73,48 @@ function cerrarPanel() {
     document.getElementById('panel-agregar-habitacion').className = 'card panel-info-none'
 }
 
+function cargarmodificarHabitacion(id) {
+    let response = getRoom(id)
+    if (response.status) {
+        idHabitacionModificar = response.room._id
+        document.getElementById('contenido').className = 'col-xl-8'
+        document.getElementById('panel-modificar-habitacion').className = 'card panel-info-show'
+        document.getElementById('panel-ver-habitacion').className = 'card panel-info-none'
+        document.getElementById('panel-agregar-habitacion').className = 'card panel-info-none'
+
+        document.getElementById('tittle-modificar').innerHTML = 'Modificar habitación ' + response.room.id
+        document.getElementById('mod-numero-habitacion').value = response.room.id
+        document.getElementById('mod-descripcion').innerHTML = response.room.descripcion
+        document.getElementById('mod-precio-habitacion').value = response.room.precio
+
+        for (let i = 0; i < document.getElementById('mod-disponibilidad').children.length; i++) {
+            if (document.getElementById('mod-disponibilidad').children[i].value == response.room.disponibilidad) {
+                document.getElementById('mod-disponibilidad').children[i].selected = true;
+                break
+            }
+        }
+        for (let i = 0; i < document.getElementById('mod-tipo-habitacion').children.length; i++) {
+            if (document.getElementById('mod-tipo-habitacion').children[i].value == response.room.tipo) {
+                document.getElementById('mod-tipo-habitacion').children[i].selected = true;
+                break
+            }
+        }
+
+        if (response.room.servicios && response.room.servicios.length > 0) {
+            response.room.servicios.map(function (servicio) {
+                document.getElementById('mod-' + servicio).checked = true
+            })
+        }
+    }
+}
+
 function verHabitacion(id) {
     let response = getRoom(id)
     if (response.status) {
         document.getElementById('contenido').className = 'col-xl-8'
         document.getElementById('panel-ver-habitacion').className = 'card panel-info-show'
+        document.getElementById('panel-modificar-habitacion').className = 'card panel-info-none'
+        document.getElementById('panel-agregar-habitacion').className = 'card panel-info-none'
 
         document.getElementById('ver-numero-habitacion').innerHTML = response.room.id
         document.getElementById('ver-descripcion').innerHTML = response.room.descripcion
@@ -122,27 +164,47 @@ function getClassDisponibilidad(disponibilidad) {
     if (disponibilidad == 'No disponible') return 'badge bg-danger'
     if (disponibilidad == 'Limpieza') return 'badge bg-primary'
 }
+document.getElementById('mod-habitacion').addEventListener("click", modificarHabitacion, false)
+function modificarHabitacion() {
+    let validacion = validarGuardar(false)
+    if (validacion) {
+        console.log('Respuesta '+updateRoom(updateRoom, idHabitacionModificar))
+    } else {
+        alert('Campos requeridos')
+    }
+}
 
-document.getElementById('guardar-habitacion').addEventListener("click", validarGuardar, false)
-function validarGuardar() {
-    let numeroHabitacion = document.getElementById('numero-habitacion').value
-    let disponibilidad = document.getElementById('disponibilidad').value
-    let tipoHabitacion = document.getElementById('tipo-habitacion').value
-    let precio = document.getElementById('precio-habitacion').value
+document.getElementById('guardar-habitacion').addEventListener("click", guardarHabitacion, false)
+function guardarHabitacion() {
+    let validacion = validarGuardar(false)
+    if (validacion) {
+        saveRoom(validacion)
+    } else {
+        alert('Campos requeridos')
+    }
+}
+
+function validarGuardar(modificar) {
+    let data
+    let prefijo = (modificar) ? '' : 'mod-'
+    let numeroHabitacion = document.getElementById(prefijo + 'numero-habitacion').value
+    let disponibilidad = document.getElementById(prefijo + 'disponibilidad').value
+    let tipoHabitacion = document.getElementById(prefijo + 'tipo-habitacion').value
+    let precio = document.getElementById(prefijo + 'precio-habitacion').value
     precio = parseFloat(precio.slice(2, precio.length))
-    let descripcion = document.getElementById('descripcion').value
+    let descripcion = document.getElementById(prefijo + 'descripcion').value
     if (precio && precio > 0 && descripcion && numeroHabitacion) {
         let servicios = []
-        if (document.getElementById('wifi').checked) servicios.push('wifi')
-        if (document.getElementById('tv').checked) servicios.push('tv')
-        if (document.getElementById('spa').checked) servicios.push('spa')
-        if (document.getElementById('shower').checked) servicios.push('shower')
-        if (document.getElementById('gym').checked) servicios.push('gym')
-        if (document.getElementById('jacuzzi').checked) servicios.push('jacuzzi')
-        if (document.getElementById('calefaccion').checked) servicios.push('calefaccion')
-        if (document.getElementById('pet').checked) servicios.push('pet')
-        if (document.getElementById('alberca').checked) servicios.push('alberca')
-        let data = {
+        if (document.getElementById(prefijo + 'wifi').checked) servicios.push('wifi')
+        if (document.getElementById(prefijo + 'tv').checked) servicios.push('tv')
+        if (document.getElementById(prefijo + 'spa').checked) servicios.push('spa')
+        if (document.getElementById(prefijo + 'shower').checked) servicios.push('shower')
+        if (document.getElementById(prefijo + 'gym').checked) servicios.push('gym')
+        if (document.getElementById(prefijo + 'jacuzzi').checked) servicios.push('jacuzzi')
+        if (document.getElementById(prefijo + 'calefaccion').checked) servicios.push('calefaccion')
+        if (document.getElementById(prefijo + 'pet').checked) servicios.push('pet')
+        if (document.getElementById(prefijo + 'alberca').checked) servicios.push('alberca')
+        data = {
             id: numeroHabitacion,
             tipo: tipoHabitacion,
             servicios: servicios,
@@ -151,13 +213,30 @@ function validarGuardar() {
             descripcion: descripcion,
             precio: precio
         }
-        saveRoom(data)
     } else {
-        alert('campos requeridos')
+        data = false
     }
+    return data
 }
 
 /**CALL REST API**/
+function updateRoom(data, id) {
+    let response = {}
+    response.status = false
+    response.rooms = {}
+    let xhr = new XMLHttpRequest()
+    xhr.open("PUT", url + '/update-room/' + id, true)
+    xhr.body = data
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            response.status = true
+            response.res = JSON.stringify(xhr.responseText)
+        }
+    }
+    xhr.send();
+    return response
+}
+
 function getRoom(id) {
     let response = {}
     response.status = false
@@ -197,7 +276,7 @@ function deleteRooms(idRoom) {
     response.status = false
     response.rooms = {}
     let xhr = new XMLHttpRequest()
-    xhr.open("DELETE", url + '/delete-room/' + idHabitacion, false)
+    xhr.open("DELETE", url + '/delete-room/' + idHabitacionDelete, false)
     xhr.onreadystatechange = function () {
         console.log('readyState ' + xhr.readyState + ' status ' + xhr.status)
         if (xhr.readyState == 4 && xhr.status == 200) {

@@ -50,8 +50,10 @@ var controller = {
     updateRoom: function (req, res) {
         var roomId = req.params.id
         var updateRoom = req.body
+        console.log('update' + JSON.stringify(updateRoom))
 
         roomSquema.findByIdAndUpdate(roomId, updateRoom, (err, roomUpdate) => {
+            console.log('RES ' + JSON.stringify(roomUpdate))
             if (err) return res.status(500).send({ message: 'Error al actualizar los datos' + err })
             if (!roomUpdate) return res.status(404).send({ message: 'No existe la habitacion' })
             return res.status(200).send({ roomUpdate })
