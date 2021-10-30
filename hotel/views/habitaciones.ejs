@@ -22,10 +22,10 @@
 		<div class="container-fluid p-0">
 			<div class="row">
 				<div class="col-6">
-					<h1 class="h3 mb-3">Habitaciones</h1>
+					<h1 class="h3 mb-3"><strong>Habitaciones</strong></h1>
 				</div>
 				<div class="col-6">
-					<a href="#" class="btn btn-primary float-end mt-n1" id="agregar-habitacion">
+					<a href="" class="btn btn-primary float-end mt-n1" id="agregar-habitacion">
 						<i class="align-middle" data-feather="plus"></i> Agregar habitación</a>
 				</div>
 			</div>
@@ -147,7 +147,7 @@
 							<h5 class="card-title mb-0" id="tittle-modificar">Modificar habitación</h5>
 						</div>
 						<div class="card-body">
-							<form name="modificar" id="modificar" novalidate>
+							<form class="needs-validation" name="modificar" id="modificar" novalidate>
 								<div class="mb-3 row">
 									<label class="col-form-label col-sm-3 text-sm-end">
 										<button class="btn btn-primary">
@@ -160,7 +160,10 @@
 									<label class="col-form-label col-sm-3 text-sm-end ">Número de
 										habitación</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="mod-numero-habitacion">
+										<input type="text" class="form-control" id="mod-numero-habitacion" required>
+										<div class="invalid-feedback">
+											Ingresa un número de habitación.
+										</div>
 									</div>
 								</div>
 								<div class="mb-3 row">
@@ -194,6 +197,9 @@
 											data-inputmask="'alias': 'numeric', 'digits': 2, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0'"
 											inputmode="decimal" id="mod-precio-habitacion" name="precio-habitacion"
 											required>
+										<div class="invalid-feedback">
+											Ingresa un precio para la habitación.
+										</div>
 									</div>
 								</div>
 								<div class="mb-3 row">
@@ -201,6 +207,9 @@
 									<div class="col-sm-9">
 										<textarea class="form-control" placeholder="Descripcion" rows="3"
 											id="mod-descripcion" name="descripcion" required></textarea>
+										<div class="invalid-feedback">
+											Ingresa una descripción para la habitación.
+										</div>
 									</div>
 								</div>
 								<fieldset class="mb-3">
@@ -260,17 +269,17 @@
 										</div>
 									</div>
 								</fieldset>
+								<div class="row g-0">
+									<div class="col-sm-9 col-xl-12 col-xxl-10">
+									</div>
+									<div class="col-sm-3 col-xl-12 col-xxl-2 text-center">
+										<button class="btn btn-primary" id="mod-habitacion">
+											<i class="align-middle" data-feather="check"></i>
+											Guardar cambios
+										</button>
+									</div>
+								</div>
 							</form>
-							<div class="row g-0">
-								<div class="col-sm-9 col-xl-12 col-xxl-10">
-								</div>
-								<div class="col-sm-3 col-xl-12 col-xxl-2 text-center">
-									<button class="btn btn-primary" id="mod-habitacion">
-										<i class="align-middle" data-feather="check"></i>
-										Guardar cambios
-									</button>
-								</div>
-							</div>
 							<br>
 						</div>
 					</div>
@@ -297,7 +306,7 @@
 							<h5 class="card-title mb-0">Agregar habitación</h5>
 						</div>
 						<div class="card-body">
-							<form name="agregar" id="agregar" novalidate>
+							<form class="needs-validation" name="agregar" id="agregar" novalidate>
 								<div class="mb-3 row">
 									<label class="col-form-label col-sm-3 text-sm-end">
 										<button class="btn btn-primary">
@@ -310,7 +319,10 @@
 									<label class="col-form-label col-sm-3 text-sm-end">Número de
 										habitación</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="numero-habitacion">
+										<input type="text" class="form-control" id="numero-habitacion" required>
+										<div class="invalid-feedback">
+											Ingresa un número de habitación.
+										</div>
 									</div>
 								</div>
 								<div class="mb-3 row">
@@ -343,6 +355,9 @@
 											data-inputmask="'alias': 'numeric', 'digits': 2, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0'"
 											inputmode="decimal" id="precio-habitacion" name="precio-habitacion"
 											required>
+										<div class="invalid-feedback">
+											Ingresa un precio para la habitación.
+										</div>
 									</div>
 								</div>
 								<div class="mb-3 row">
@@ -350,6 +365,9 @@
 									<div class="col-sm-9">
 										<textarea class="form-control" placeholder="Descripcion" rows="3"
 											id="descripcion" name="descripcion" required></textarea>
+										<div class="invalid-feedback">
+											Ingresa una descripción para la habitación.
+										</div>
 									</div>
 								</div>
 								<fieldset class="mb-3">
@@ -408,17 +426,18 @@
 										</div>
 									</div>
 								</fieldset>
+								<div class="row g-0">
+									<div class="col-sm-9 col-xl-12 col-xxl-10">
+									</div>
+									<div class="col-sm-3 col-xl-12 col-xxl-2 text-center">
+										<button class="btn btn-primary" id="guardar-habitacion" type="submit">
+											<i class="align-middle" data-feather="check"></i>
+											Guardar
+										</button>
+									</div>
+								</div>
 							</form>
-							<div class="row g-0">
-								<div class="col-sm-9 col-xl-12 col-xxl-10">
-								</div>
-								<div class="col-sm-3 col-xl-12 col-xxl-2 text-center">
-									<button class="btn btn-primary" id="guardar-habitacion">
-										<i class="align-middle" data-feather="check"></i>
-										Guardar
-									</button>
-								</div>
-							</div>
+
 							<br>
 						</div>
 					</div>
@@ -431,5 +450,6 @@
 		</div>
 	</main>
 	<script src="js/datatables.js"></script>
-	<script src="js/info-html.js"></script>
+	<script src="js/habitaciones.js"></script>
+	<script>document.getElementById('habitaciones').className = 'sidebar-item active'</script>
 	<%- include('template/footer'); %>

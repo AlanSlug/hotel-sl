@@ -1,5 +1,40 @@
 'use strict'
 
+
+//Validar formualario de agregar habitacion
+var forms = document.querySelectorAll('#agregar')
+Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            } else {
+                event.preventDefault()
+                event.stopPropagation()
+                guardarHabitacion()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+
+//Validar formualario de modificar habitacion
+var forms = document.querySelectorAll('#modificar')
+Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            } else {
+                event.preventDefault()
+                event.stopPropagation()
+                modificarHabitacion()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+
 //const url = 'https://apirest-hotel.herokuapp.com/api' 
 //const url = 'http://localhost:3000/api'
 var idHabitacionDelete //guarda el id de la habitacion para eliminar
@@ -7,7 +42,8 @@ var idHabitacionModificar //guarda el id de la habitacion para eliminar
 
 document.getElementById('boton-eliminar').addEventListener("click", deleteRooms, false)
 
-document.getElementById('agregar-habitacion').addEventListener("click", function () {
+document.getElementById('agregar-habitacion').addEventListener("click", function (event) {
+    event.preventDefault()
     document.getElementById('contenido').className = 'col-xl-8'
     document.getElementById('panel-ver-habitacion').className = 'card panel-info-none'
     document.getElementById('panel-modificar-habitacion').className = 'card panel-info-none'
@@ -137,7 +173,7 @@ function getClassDisponibilidad(disponibilidad) {
     if (disponibilidad == 'No disponible') return 'badge bg-danger'
     if (disponibilidad == 'Limpieza') return 'badge bg-primary'
 }
-document.getElementById('mod-habitacion').addEventListener("click", modificarHabitacion, false)
+//document.getElementById('mod-habitacion').addEventListener("click", modificarHabitacion, false)
 function modificarHabitacion() {
     let validacion = validarGuardar(true)
     if (validacion) {
@@ -147,7 +183,7 @@ function modificarHabitacion() {
     }
 }
 
-document.getElementById('guardar-habitacion').addEventListener("click", guardarHabitacion, false)
+//document.getElementById('guardar-habitacion').addEventListener("click", guardarHabitacion, false)
 function guardarHabitacion() {
     let validacion = validarGuardar(false)
     if (validacion) {
@@ -309,11 +345,10 @@ function deleteRooms(idRoom) {
     let xhr = new XMLHttpRequest()
     xhr.open("DELETE", '/api/delete-room/' + idHabitacionDelete, false)
     xhr.onreadystatechange = function () {
-        console.log('readyState ' + xhr.readyState + ' status ' + xhr.status)
         if (xhr.readyState == 4 && xhr.status == 200) {
             tablaHAbitaciones.ajax.reload()
         } else {
-            alert('Ocurrio un error al eliminar la habitacion')
+            swal("Algo salio mal!", 'Ocurrio un error al eliminar la habitacion', "error");
         }
     }
     xhr.send();
@@ -328,20 +363,60 @@ function saveRoom(data) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => {
-        if (response.status == 200) {
-            response.json().then(data => {
-                tablaHAbitaciones.ajax.reload()
-            }).catch(err => {
-                console.log('error al actualizar ' + err)
-            })
-        } else {
-            response.text().then(text => {
-                console.log('No actualizado ' + text)
-            })
-        }
-    })
-    .catch(err => {
-        console.log('error ' + JSON.stringify(err))
-    })
+        .then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    swal({
+                        title: "Tarea con exito!",
+                        text: "La habitación ha agregado correctamente!",
+                        icon: "success",
+                        buttons: {
+                            catch: {
+                                text: "Agregar otra habitación",
+                                value: "catch",
+                            },
+                            cancel: "Finalizar!"
+                        }
+                    })
+                        .then((value) => {
+                            switch (value) {
+                                case "catch":
+                                    swal("Mensaje!", "Continua agregando habitaciones", "info");
+                                    break;
+
+                                default:
+                                    swal("Tarea con exito!", "", "success");
+                                    cerrarPanel()
+                            }
+                        });
+                    document.getElementById('mod-numero-habitacion').value = ''
+                    document.getElementById('mod-descripcion').innerHTML = ''
+                    document.getElementById('mod-precio-habitacion').value = 0
+                    document.getElementById('mod-disponibilidad').children[0].selected = true;
+                    document.getElementById('mod-tipo-habitacion').children[0].selected = true;
+                    document.getElementById('wifi').checked = false
+                    document.getElementById('tv').checked = false
+                    document.getElementById('spa').checked = false
+                    document.getElementById('shower').checked = false
+                    document.getElementById('gym').checked = false
+                    document.getElementById('jacuzzi').checked = false
+                    document.getElementById('calefaccion').checked = false
+                    document.getElementById('pet').checked = false
+                    document.getElementById('alberca').checked = false
+                    tablaHAbitaciones.ajax.reload()
+                }).catch(err => {
+                    console.log('error al agregar ' + err)
+                    swal("Algo salio mal!", 'error al agregar ' + err, "error");
+                })
+            } else {
+                response.text().then(text => {
+                    console.log('No actualizado ' + text)
+                    swal("Algo salio mal!", 'No actualizado ' + text, "error");
+                })
+            }
+        })
+        .catch(err => {
+            console.log('error ' + JSON.stringify(err))
+            swal("Algo salio mal!", 'error ' + JSON.stringify(err), "error");
+        })
 }
