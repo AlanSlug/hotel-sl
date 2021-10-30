@@ -385,24 +385,24 @@ function saveRoom(data) {
                                     break;
 
                                 default:
-                                    swal("Tarea con exito!", "", "success");
                                     cerrarPanel()
+                                    swal("Tarea con exito!", "", "success");
+                                    document.getElementById('numero-habitacion').value = ''
+                                    document.getElementById('descripcion').value = ''
+                                    document.getElementById('precio-habitacion').value = null
+                                    document.getElementById('disponibilidad').children[0].selected = true;
+                                    document.getElementById('tipo-habitacion').children[0].selected = true;
+                                    document.getElementById('wifi').checked = false
+                                    document.getElementById('tv').checked = false
+                                    document.getElementById('spa').checked = false
+                                    document.getElementById('shower').checked = false
+                                    document.getElementById('gym').checked = false
+                                    document.getElementById('jacuzzi').checked = false
+                                    document.getElementById('calefaccion').checked = false
+                                    document.getElementById('pet').checked = false
+                                    document.getElementById('alberca').checked = false
                             }
                         });
-                    document.getElementById('mod-numero-habitacion').value = ''
-                    document.getElementById('mod-descripcion').innerHTML = ''
-                    document.getElementById('mod-precio-habitacion').value = 0
-                    document.getElementById('mod-disponibilidad').children[0].selected = true;
-                    document.getElementById('mod-tipo-habitacion').children[0].selected = true;
-                    document.getElementById('wifi').checked = false
-                    document.getElementById('tv').checked = false
-                    document.getElementById('spa').checked = false
-                    document.getElementById('shower').checked = false
-                    document.getElementById('gym').checked = false
-                    document.getElementById('jacuzzi').checked = false
-                    document.getElementById('calefaccion').checked = false
-                    document.getElementById('pet').checked = false
-                    document.getElementById('alberca').checked = false
                     tablaHAbitaciones.ajax.reload()
                 }).catch(err => {
                     console.log('error al agregar ' + err)
