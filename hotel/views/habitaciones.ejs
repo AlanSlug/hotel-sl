@@ -1,5 +1,5 @@
 <%- include('template/sidebar'); %>
-	
+
 	<main class="content">
 		<div class="modal fade" id="modal-eliminar" tabindex="-1" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -128,9 +128,11 @@
 						<div class="card-header">
 							<div class="card-actions float-end">
 								<div class="dropdown position-relative">
-									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="">
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-											stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+										class="">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+											viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+											stroke-linecap="round" stroke-linejoin="round"
 											class="feather feather-more-horizontal align-middle">
 											<circle cx="12" cy="12" r="1"></circle>
 											<circle cx="19" cy="12" r="1"></circle>
@@ -176,7 +178,8 @@
 									<label class="col-form-label col-sm-3 text-sm-end">Tipo de
 										habitación</label>
 									<div class="col-sm-9">
-										<select class="form-control mb-3" id="mod-tipo-habitacion" name="tipo-habitacion">
+										<select class="form-control mb-3" id="mod-tipo-habitacion"
+											name="tipo-habitacion">
 											<option selected="">Sencilla</option>
 											<option>Doble</option>
 											<option>Suite</option>
@@ -189,14 +192,15 @@
 									<div class="col-sm-9">
 										<input type="text" class="form-control"
 											data-inputmask="'alias': 'numeric', 'digits': 2, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0'"
-											inputmode="decimal" id="mod-precio-habitacion" name="precio-habitacion" required>
+											inputmode="decimal" id="mod-precio-habitacion" name="precio-habitacion"
+											required>
 									</div>
 								</div>
 								<div class="mb-3 row">
 									<label class="col-form-label col-sm-3 text-sm-end">Descripción</label>
 									<div class="col-sm-9">
-										<textarea class="form-control" placeholder="Descripcion" rows="3" id="mod-descripcion" name="descripcion"
-											required></textarea>
+										<textarea class="form-control" placeholder="Descripcion" rows="3"
+											id="mod-descripcion" name="descripcion" required></textarea>
 									</div>
 								</div>
 								<fieldset class="mb-3">
@@ -204,7 +208,8 @@
 										<label class="col-form-label col-sm-3 text-sm-end pt-sm-0">Servicios</label>
 										<div class="col-sm-9">
 											<label class="form-check m-0">
-												<input type="checkbox" class="form-check-input" id="mod-wifi" name="wifi">
+												<input type="checkbox" class="form-check-input" id="mod-wifi"
+													name="wifi">
 												<i class="fas fa-wifi"></i>
 												<span class="form-check-label">Wifi</span>
 											</label>
@@ -219,7 +224,8 @@
 												<span class="form-check-label">SPA</span>
 											</label>
 											<label class="form-check m-0">
-												<input type="checkbox" class="form-check-input" id="mod-shower" name="shower">
+												<input type="checkbox" class="form-check-input" id="mod-shower"
+													name="shower">
 												<i class="fas fa-shower"></i>
 												<span class="form-check-label">Agua Caliente</span>
 											</label>
@@ -229,12 +235,14 @@
 												<span class="form-check-label">GYM</span>
 											</label>
 											<label class="form-check m-0">
-												<input type="checkbox" class="form-check-input" id="mod-jacuzzi" name="jacuzzi">
+												<input type="checkbox" class="form-check-input" id="mod-jacuzzi"
+													name="jacuzzi">
 												<i class="fas fa-hot-tub"></i>
 												<span class="form-check-label">Jacuzzi</span>
 											</label>
 											<label class="form-check m-0">
-												<input type="checkbox" class="form-check-input" id="mod-calefaccion" name="calefaccion">
+												<input type="checkbox" class="form-check-input" id="mod-calefaccion"
+													name="calefaccion">
 												<i class="fas fa-temperature-high"></i>
 												<span class="form-check-label">Calefaccion</span>
 											</label>
@@ -244,7 +252,8 @@
 												<span class="form-check-label">Pet friendly</span>
 											</label>
 											<label class="form-check m-0">
-												<input type="checkbox" class="form-check-input" id="mod-alberca" name="alberca">
+												<input type="checkbox" class="form-check-input" id="mod-alberca"
+													name="alberca">
 												<i class="fas fa-swimming-pool"></i>
 												<span class="form-check-label">Alberca</span>
 											</label>
@@ -423,7 +432,4 @@
 	</main>
 	<script src="js/datatables.js"></script>
 	<script src="js/info-html.js"></script>
-	<script>
-		imprimirTabla()
-	</script>
-<%- include('template/footer'); %>
+	<%- include('template/footer'); %>

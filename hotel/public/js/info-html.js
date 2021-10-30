@@ -1,6 +1,7 @@
 'use strict'
 
-const url = 'https://apirest-hotel.herokuapp.com/api'
+//const url = 'https://apirest-hotel.herokuapp.com/api' 
+//const url = 'http://localhost:3000/api'
 var idHabitacionDelete //guarda el id de la habitacion para eliminar
 var idHabitacionModificar //guarda el id de la habitacion para eliminar
 
@@ -12,59 +13,31 @@ document.getElementById('agregar-habitacion').addEventListener("click", function
     document.getElementById('panel-modificar-habitacion').className = 'card panel-info-none'
     document.getElementById('panel-agregar-habitacion').className = 'card panel-info-show'
 }, false)
-/*document.getElementById('agregar-habitacion').addEventListener("click", function () {
-    var response = getRooms()
-    //alert('R ' + JSON.stringify(response))
-    if (response.status) {
-        var rooms = response.rooms.map(function (room) {
-            if (room.disponibilidad == 'Libre') room.disponibilidad = "<strong class = 'badge bg-success'>" + room.disponibilidad + "</strong>"
-            if (room.disponibilidad == 'Reservada') room.disponibilidad = "<p class = 'badge bg-success'>" + room.disponibilidad + "</p>"
-            if (room.disponibilidad == 'No disponible') room.disponibilidad = "<p class = 'badge bg-success'>" + room.disponibilidad + "</p>"
-            if (room.disponibilidad == 'Limpieza') room.disponibilidad = "<p class = 'badge bg-success'>" + room.disponibilidad + "</p>"
-            room.botones = "<i class='align-middle far fa-eye fa-lg  option-table'></i><i class='far fa-edit fa-lg  option-table'></i><i class='far fa-trash-alt fa-lg option-table' data-bs-toggle='modal' data-bs-target='#modal-eliminar' onclick = 'idHabitacion = \"" + room._id + "\"'></i>"
-            //room.botones = "<i class='align-middle far fa-eye fa-lg  option-table'></i><i class='far fa-edit fa-lg  option-table'></i><i class='far fa-trash-alt fa-lg option-table' onclick = 'deleteRoom(\""+room._id+"\")'></i>"
-            return room
-        });
-        //alert(JSON.stringify(rooms))
-        var table = $('#tabla-habitaciones').DataTable({
-        });
-    }
-    table.clear();
-    table.rows.add(rooms).draw();
-}, false)*/
 
-function imprimirTabla() {
-    let response = getRooms()
-    //alert('R ' + JSON.stringify(response))
-    if (response.status) {
-        let rooms = response.rooms.map(function (room) {
-            room.disponibilidad = "<p class = '" + getClassDisponibilidad(room.disponibilidad) + "'>" + room.disponibilidad + "</p>"
-            room.botones = "<i class='align-middle far fa-eye fa-lg  option-table' onclick = 'verHabitacion(\"" + room._id + "\")'></i>" +
-                "<i class='far fa-edit fa-lg  option-table' onclick = 'cargarmodificarHabitacion(\"" + room._id + "\")'></i>" +
-                "<i class='far fa-trash-alt fa-lg option-table' data-bs-toggle='modal' data-bs-target='#modal-eliminar' onclick = 'idHabitacionDelete = \"" + room._id + "\"'></i>"
-            //room.botones = "<i class='align-middle far fa-eye fa-lg  option-table'></i><i class='far fa-edit fa-lg  option-table'></i><i class='far fa-trash-alt fa-lg option-table' onclick = 'deleteRoom(\""+room._id+"\")'></i>"
-            return room
-        });
-        //alert(JSON.stringify(rooms))
-        $('#tabla-habitaciones').DataTable({
-            paging: true,
-            searching: true,
-            info: true,
-            data: rooms,
-            responsive: true,
-            lengthChange: !1,
-            columns: [
-                { title: "Id", data: "id" },
-                { title: "Tipo de habitación", data: "tipo" },
-                { title: "Disponibilidad", data: "disponibilidad" },
-                { title: "Precio", data: "precio" },
-                { title: "", data: "botones" }
-            ],
-            dom: 'Bfrtip',
-            buttons: ["copy", "print"]
-        });
+var tablaHAbitaciones = $('#tabla-habitaciones').DataTable({
+    ajax: {
+        url: '/api/rooms/',
+        method: "GET",
+        dataSrc: 'rooms'
+    },
+    columns: [
+        { title: "Id", data: "id" },
+        { title: "Tipo de habitación", data: "tipo" },
+        { title: "Disponibilidad", data: "disponibilidad" },
+        { title: "Precio", data: "precio" },
+        { title: "", defaultContent: "" }
+    ],
+    dom: 'Bfrtip',
+    buttons: ["copy", "print"],
+    rowCallback: function (row, room) {
+        $('td:eq(2)', row).html("<p class = '" + getClassDisponibilidad(room.disponibilidad) + "'>" + room.disponibilidad + "</p>")
+        $('td:eq(3)', row).html(formatoCifras(room.precio))
+        $('td:eq(4)', row).html("<div class='text-right'><i class='align-middle far fa-eye fa-lg  option-table' onclick = 'verHabitacion(\"" + room._id + "\")'></i>" +
+            "<i class='far fa-edit fa-lg  option-table' onclick = 'cargarmodificarHabitacion(\"" + room._id + "\")'></i>" +
+            "<i class='far fa-trash-alt fa-lg option-table' data-bs-toggle='modal' data-bs-target='#modal-eliminar' onclick = 'idHabitacionDelete = \"" + room._id + "\"'></i></div>"
+        )
     }
-}
+});
 
 function cerrarPanel() {
     document.getElementById('contenido').className = 'col-xl-12'
@@ -166,9 +139,9 @@ function getClassDisponibilidad(disponibilidad) {
 }
 document.getElementById('mod-habitacion').addEventListener("click", modificarHabitacion, false)
 function modificarHabitacion() {
-    let validacion = validarGuardar(false)
+    let validacion = validarGuardar(true)
     if (validacion) {
-        console.log('Respuesta '+updateRoom(updateRoom, idHabitacionModificar))
+        updateRoom(validacion, idHabitacionModificar)
     } else {
         alert('Campos requeridos')
     }
@@ -186,7 +159,7 @@ function guardarHabitacion() {
 
 function validarGuardar(modificar) {
     let data
-    let prefijo = (modificar) ? '' : 'mod-'
+    let prefijo = (modificar) ? 'mod-' : ''
     let numeroHabitacion = document.getElementById(prefijo + 'numero-habitacion').value
     let disponibilidad = document.getElementById(prefijo + 'disponibilidad').value
     let tipoHabitacion = document.getElementById(prefijo + 'tipo-habitacion').value
@@ -219,22 +192,80 @@ function validarGuardar(modificar) {
     return data
 }
 
-/**CALL REST API**/
-function updateRoom(data, id) {
-    let response = {}
-    response.status = false
-    response.rooms = {}
-    let xhr = new XMLHttpRequest()
-    xhr.open("PUT", url + '/update-room/' + id, true)
-    xhr.body = data
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            response.status = true
-            response.res = JSON.stringify(xhr.responseText)
+function formatoCifras(monto) {
+    var negativo = false
+    if (monto < 0) {
+        negativo = true
+        monto = monto * (- 1)
+    }
+    monto = monto + ""
+    var index = monto.length; // indica en que indice iniciara el formato
+    for (var i = monto.length; i > 0; i--) {
+        if (monto.charAt(i - 1) == ".") {
+            index = i - 1 // se actualiza el incice para que empieze el formato despues del punto decimal
         }
     }
-    xhr.send();
-    return response
+    var c = 0;
+    var montoTemp = ""
+    if (index > 0) {
+        for (var i = index; i > 0; i--) {
+            montoTemp += monto.charAt(i - 1)
+            c++
+            if (c == 3) {
+                if (i != 1) {
+                    montoTemp += ","
+                    c = 0
+                }
+            }
+        }
+    } else {
+        var montoTemp = "0"
+    }
+    var m = ""
+    for (var i = montoTemp.length; i > 0; i--) {
+        m += montoTemp.charAt(i - 1)
+    }
+    if (index != monto.length) {// agrega los decimales al resultado
+        m += monto.substring(index, monto.length)
+    } else {
+        m += ".00"
+    }
+    if (negativo) {
+        m = "-" + m
+    }
+    return "$" + m
+}
+
+/**CALL REST API**/
+function updateRoom(data, id) {
+    fetch('/api/update-room/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    cerrarPanel()
+                    tablaHAbitaciones.ajax.reload()
+                    swal("Tarea con exito!", "La habitación se ha actualizado correctamente!", "success");
+                    console.log('Habitacion actualizada ' + JSON.stringify(data))
+                }).catch(err => {
+                    console.log('error al actualizar ' + err)
+                    swal("Algo salio mal!", 'error al actualizar ' + err, "error");
+                })
+            } else {
+                response.text().then(text => {
+                    console.log('No actualizado ' + text)
+                    swal("Algo salio mal!", 'No actualizado ' + text, "error");
+                })
+            }
+        })
+        .catch(err => {
+            console.log('error ' + JSON.stringify(err))
+            swal("Algo salio mal!", 'error ' + JSON.stringify(err), "error");
+        })
 }
 
 function getRoom(id) {
@@ -242,7 +273,7 @@ function getRoom(id) {
     response.status = false
     response.rooms = {}
     let xhr = new XMLHttpRequest()
-    xhr.open("GET", url + '/room/' + id, false)
+    xhr.open("GET", '/api/room/' + id, false)
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let room = JSON.parse(xhr.responseText).room
@@ -266,7 +297,7 @@ function getRooms() {
             response.rooms = rooms
         }
     }
-    xhr.open("GET", url + '/rooms', false)
+    xhr.open("GET", '/api/rooms', false)
     xhr.send();
     return response
 }
@@ -276,11 +307,11 @@ function deleteRooms(idRoom) {
     response.status = false
     response.rooms = {}
     let xhr = new XMLHttpRequest()
-    xhr.open("DELETE", url + '/delete-room/' + idHabitacionDelete, false)
+    xhr.open("DELETE", '/api/delete-room/' + idHabitacionDelete, false)
     xhr.onreadystatechange = function () {
         console.log('readyState ' + xhr.readyState + ' status ' + xhr.status)
         if (xhr.readyState == 4 && xhr.status == 200) {
-            window.location.reload(true)
+            tablaHAbitaciones.ajax.reload()
         } else {
             alert('Ocurrio un error al eliminar la habitacion')
         }
@@ -290,18 +321,27 @@ function deleteRooms(idRoom) {
 }
 
 function saveRoom(data) {
-    let apiUrl = url + '/save-room'
-    console.log('ObjectRoom' + JSON.stringify(data))
-    fetch(apiUrl, {
+    fetch('/api/save-room', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
-        .then(response =>
-            response.json()
-        ).then(data => {
-            console.log(data)
-        })
+    .then(response => {
+        if (response.status == 200) {
+            response.json().then(data => {
+                tablaHAbitaciones.ajax.reload()
+            }).catch(err => {
+                console.log('error al actualizar ' + err)
+            })
+        } else {
+            response.text().then(text => {
+                console.log('No actualizado ' + text)
+            })
+        }
+    })
+    .catch(err => {
+        console.log('error ' + JSON.stringify(err))
+    })
 }
