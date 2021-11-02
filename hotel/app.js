@@ -6,6 +6,7 @@ const app = express()
 
 //Cargar archivos de rutas
 const roomRoutes = require('./routes/room')
+const guestRoutes = require('./routes/guest')
 
 //Motor de plantillas
 app.set('view engine', 'ejs')
@@ -40,6 +41,7 @@ app.get('/habitaciones', (req, res) => {
 
 //API
 app.use('/api', roomRoutes)
+app.use('/api', guestRoutes)
 app.get('/test', (req, res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"

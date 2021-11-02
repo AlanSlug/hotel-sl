@@ -347,6 +347,8 @@ function deleteRooms(idRoom) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             tablaHAbitaciones.ajax.reload()
+            cerrarPanel()
+            swal("Tarea con exito!", "La habitación se ha eliminado correctamente!", "success");
         } else {
             swal("Algo salio mal!", 'Ocurrio un error al eliminar la habitacion', "error");
         }
