@@ -1,6 +1,4 @@
 'use strict'
-
-
 //Validar formualario de agregar habitacion
 var forms = document.querySelectorAll('#agregar')
 Array.prototype.slice.call(forms)

@@ -1,0 +1,91 @@
+<%- include('template/sidebar'); %>
+    <main class="content">
+        <div class="modal fade" id="modal-eliminar" tabindex="-1" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Mensaje de confirmación!</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body m-3">
+						<p class="mb-0">Está seguro de eliminar permanentemente al huesped?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-danger" id="boton-eliminar"
+							data-bs-dismiss="modal">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-6">
+                    <h1 class="h3 mb-3"><strong>Huespedes</strong></h1>
+                </div>
+                <div class="col-6">
+                    <a href="" class="btn btn-primary float-end mt-n1" id="agregar-huesped">
+                        <i class="align-middle" data-feather="plus"></i> Agregar Huesped</a>
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+                <div class="col-xl-12" id="contenido">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5 class="card-title mb-0">Huespedes</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla-huespedes" class="table table-striped" style="width:100%">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4" id="paneles">
+                    <div class="card panel-info-none" id="panel-agregar-huesped">
+						<div class="card-header">
+							<div class="card-actions float-end">
+								<div class="dropdown position-relative">
+									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+										class="">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+											viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+											stroke-linecap="round" stroke-linejoin="round"
+											class="feather feather-more-horizontal align-middle">
+											<circle cx="12" cy="12" r="1"></circle>
+											<circle cx="19" cy="12" r="1"></circle>
+											<circle cx="5" cy="12" r="1"></circle>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-end">
+										<a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
+									</div>
+								</div>
+							</div>
+							<h5 class="card-title mb-0">Agregar huesped</h5>
+						</div>
+						<div class="card-body">
+							<form class="needs-validation" name="agregar" id="agregar" novalidate>
+                                <div class="col-md-12">
+                                    <label class="form-label">Nombre(s)</label>
+                                    <input type="text" class="form-control" id="nombre" required>
+                                  </div>
+                                  <div class="col-12">
+                                    <button class="btn btn-primary" type="submit"><i class="align-middle" data-feather="check"></i>
+                                        Guardar</button>
+                                  </div>
+							</form>
+
+							<br>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="js/datatables.js"></script>
+	<script src="js/huespedes.js"></script>
+    <script>
+        document.getElementById('huespedes').className = 'sidebar-item active'
+    </script>
+<%- include('template/footer'); %>
