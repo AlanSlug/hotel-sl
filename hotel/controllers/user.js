@@ -42,10 +42,12 @@ var userController = {
     }, login: function (req, res) {
         var paramsBody = req.body
 
-        userSchema.find({ nombre: paramsBody.nombre, pass: paramsBody.pass }).exec((err, user) => {
+        userSchema.find({ user: paramsBody.user, pass: paramsBody.pass }).exec((err, user) => {
             if (err) return res.status(500).send({ message: 'Error al devolver los datos' + err })
-            if (!user || user.length < 1) return res.status(404).send({ message: 'Credenciales incorrectas' })
+            if (!user || user.length < 1) return res.status(200).send({ message: 'Credenciales incorrectas' })
             let usuario = usuarioFront(user[0])
+            req.flash('user', usuario)
+            //console.log('Login '+JSON.stringify(req.flash('user')))
             return res.status(200).send({ usuario })
         })
     }
@@ -56,7 +58,7 @@ function usuarioFront(user) {
     usuario.nombre = user.nombre
     usuario.apellidoPaterno = user.apellidoPaterno
     usuario.apellidoMaterno = user.apellidoMaterno
-    usuario.alias = user.alias
+    usuario.user = user.user
     usuario.imagen = user.imagen
     usuario.perfil = user.perfil
     return usuario

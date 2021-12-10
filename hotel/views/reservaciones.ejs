@@ -1,0 +1,218 @@
+<%- include('template/sidebar'); %>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+    <main class="content">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-6">
+                    <h1 class="h3 mb-3"><strong>Reservaciones</strong></h1>
+                </div>
+                <div class="col-6">
+                    <a href="" class="btn btn-primary float-end mt-n1" id="agregar-huesped">
+                        <i class="align-middle" data-feather="plus"></i> Nueva reservación</a>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="modalHabitaciones" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Seleccione una habitación!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body m-3">
+                            <table id="tabla-habitaciones" class="table stripe hover compact" style="width:100%">
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-danger" id="aceptar-habitacion"
+                                data-bs-dismiss="modal">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalHuespedes" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Seleccione un husped!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body m-3">
+                            <table id="tabla-huespedes" class="table stripe hover compact" style="width:100%">
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-danger" id="aceptar-huesped"
+                                data-bs-dismiss="modal">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <br><br>
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5 class="card-title mb-0">Nueva reservación</h5>
+                        </div>
+                        <div class="card-body">
+                                <form class="row gx-3 gy-2 align-items-center needs-validation" id="reservacion-formulario" novalidate>
+                                    <div class="col-auto">
+                                        <label for="fechas" class="form-label">Fechas de reservación</label>
+                                        <div class="input-group has-validation">
+                                            <input id="fechas" type="text" name="datefilter" value="" required/>
+                                            <span class="input-group-text"><i class="fa fa-calendar"
+                                                    aria-hidden="true"></i></span>
+                                                    <div class="invalid-feedback">
+                                                        Ingresa una fecha.
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3"data-bs-toggle="modal" data-bs-target="#modalHuespedes">
+                                        <label for="huespedText" class="form-label">Huesped</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="huespedText" placeholder="Nombre..." required style="cursor: pointer;">
+                                            <div class="input-group-text" style="cursor: pointer;">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Escoja un huesped.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHabitaciones">
+                                        <label for="habitacionText" class="form-label">Habitación</label>
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control" id="habitacionText" placeholder="Número habitación..."  style="cursor: pointer;" required>
+                                            <div class="input-group-text" style="cursor: pointer;">
+                                                <i class="fa fa-bed" aria-hidden="true"></i></i>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Ingresa una habitación.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="numAdultos" class="form-label">Adultos</label>
+                                        <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                        <select class="form-select" id="numAdultos">
+                                            <option selected="">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label for="numNinos" class="form-label">Ninos</label>
+                                        <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                        <select class="form-select" id="numNinos">
+                                            <option selected="">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <br>
+                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Reservar</button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12" id="contenido-reservaciones">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5 class="card-title mb-0">Reservaciones</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla-reservaciones" class="table table-striped" style="width:100%">
+                            </table>
+                            <table class="table table-hover my-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th class="d-none d-xl-table-cell">Check-in</th>
+                                        <th class="d-none d-xl-table-cell">Check-out</th>
+                                        <th>Estatus</th>
+                                        <th class="d-none d-md-table-cell">Habitación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>RE012</td>
+                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">22/11/2021</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="d-none d-md-table-cell">SU001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE013</td>
+                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">22/11/2021</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                        <td class="d-none d-md-table-cell">SU001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE016</td>
+                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">23/11/2021</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="d-none d-md-table-cell">SE001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE021</td>
+                                        <td class="d-none d-xl-table-cell">19/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">24/11/2021</td>
+                                        <td><span class="badge bg-warning">Corriendo</span></td>
+                                        <td class="d-none d-md-table-cell">SE011</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE031</td>
+                                        <td class="d-none d-xl-table-cell">01/01/2021</td>
+                                        <td class="d-none d-xl-table-cell">31/06/2021</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="d-none d-md-table-cell">DO001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE015</td>
+                                        <td class="d-none d-xl-table-cell">15/01/2021</td>
+                                        <td class="d-none d-xl-table-cell">18/06/2021</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="d-none d-md-table-cell">SE001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE014</td>
+                                        <td class="d-none d-xl-table-cell">13/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">15/16/2021</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="d-none d-md-table-cell">SE002</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RE032</td>
+                                        <td class="d-none d-xl-table-cell">11/11/2021</td>
+                                        <td class="d-none d-xl-table-cell">31/11/2021</td>
+                                        <td><span class="badge bg-warning">Corriendo</span></td>
+                                        <td class="d-none d-md-table-cell">PE001</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="js/datatables.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="js/reservaciones.js"></script>
+    <%- include('template/footer'); %>

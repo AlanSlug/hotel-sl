@@ -7,7 +7,7 @@ var userSchema = Schema({
     nombre: String,
     apellidoPaterno: String,
     apellidoMaterno: String,
-    alias: String,
+    user: String,
     imagen: String,
     perfil: String,
     pass: String

@@ -33,7 +33,7 @@ document.getElementById('agregar-huesped').addEventListener("click", function (e
     document.getElementById('panel-agregar-huesped').className = 'card panel-info-show'
 }, false)
 
-function cerrarPanel () {
+function cerrarPanel() {
 
 }
 
@@ -61,8 +61,8 @@ function deleteHuesped() {
             })
         }
     })
-    .catch(err => {
-        console.log('error ' + JSON.stringify(err))
-        swal("Algo salio mal!", 'error ' + JSON.stringify(err), "error");
-    })
+        .catch(err => {
+            console.log('error ' + JSON.stringify(err))
+            swal("Algo salio mal!", 'error ' + JSON.stringify(err), "error");
+        })
 }
