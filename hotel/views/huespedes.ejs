@@ -1,6 +1,6 @@
 <%- include('template/sidebar'); %>
-    <main class="content">
-        <div class="modal fade" id="modal-eliminar" tabindex="-1" style="display: none;" aria-hidden="true">
+	<main class="content">
+		<div class="modal fade" id="modal-eliminar" tabindex="-1" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -18,31 +18,21 @@
 				</div>
 			</div>
 		</div>
-        <div class="container-fluid p-0">
-            <div class="row">
-                <div class="col-6">
-                    <h1 class="h3 mb-3"><strong>Huespedes</strong></h1>
-                </div>
-                <div class="col-6">
-                    <a href="" class="btn btn-primary float-end mt-n1" id="agregar-huesped">
-                        <i class="align-middle" data-feather="plus"></i> Agregar Huesped</a>
-                </div>
-            </div>
-            <div class="row">
-                <br><br>
-                <div class="col-xl-12" id="contenido">
-                    <div class="card">
-                        <div class="card-header pb-0">
-                            <h5 class="card-title mb-0">Huespedes</h5>
-                        </div>
-                        <div class="card-body">
-                            <table id="tabla-huespedes" class="table table-striped" style="width:100%">
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4" id="paneles">
-                    <div class="card panel-info-none" id="panel-agregar-huesped">
+		<div class="container-fluid p-0">
+			<div class="row">
+				<div class="col-6">
+					<h1 class="h3 mb-3"><strong>Huespedes</strong></h1>
+				</div>
+				<div class="col-6">
+					<a href="" class="btn btn-primary float-end mt-n1" id="agregar-huesped">
+						<i class="align-middle" data-feather="plus"></i> Agregar Huesped</a>
+				</div>
+			</div>
+			<div class="row">
+				<br><br>
+				<br><br>
+				<div class="col-xl-12 panel-info" id="panel-reservacion">
+					<div class="card">
 						<div class="card-header">
 							<div class="card-actions float-end">
 								<div class="dropdown position-relative">
@@ -62,30 +52,116 @@
 									</div>
 								</div>
 							</div>
-							<h5 class="card-title mb-0">Agregar huesped</h5>
+							<h5 class="card-title mb-0" id="ver-numero-habitacion">Nuevo huesped</h5>
 						</div>
 						<div class="card-body">
-							<form class="needs-validation" name="agregar" id="agregar" novalidate>
-                                <div class="col-md-12">
-                                    <label class="form-label">Nombre(s)</label>
-                                    <input type="text" class="form-control" id="nombre" required>
-                                  </div>
-                                  <div class="col-12">
-                                    <button class="btn btn-primary" type="submit"><i class="align-middle" data-feather="check"></i>
-                                        Guardar</button>
-                                  </div>
+							<form class="needs-validation" id="huesped-formulario" novalidate>
+								
+									<div class="col-md-4 mb-3">
+										<label for="nombreNuevo" class="form-label">Nombre(s)</label>
+										<div class="input-group has-validation">
+											<input type="text" class="form-control" id="nombreNuevo" autocomplete="off"
+												required>
+											<div class="invalid-feedback">
+												Ingrese un nombre.
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<label for="paternoNuevo" class="form-label">Apellido Paterno</label>
+										<div class="input-group has-validation">
+											<input type="text" class="form-control" id="paternoNuevo" autocomplete="off"
+												required>
+											<div class="invalid-feedback">
+												Ingrese un apellido.
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4 mb-3">
+										<label for="maternoNuevo" class="form-label">Apellido Paterno</label>
+										<div class="input-group has-validation">
+											<input type="text" class="form-control" id="maternoNuevo" autocomplete="off"
+												required>
+											<div class="invalid-feedback">
+												Ingrese un apellido.
+											</div>
+										</div>
+									</div>
+									
+								
+								<div class="col-md-4 mb-3">
+									<label for="sexoNuevo" class="form-label">Sexo</label>
+									<div class="input-group has-validation">
+										<input type="text" class="form-control" id="sexoNuevo" autocomplete="off"
+											required>
+										<div class="invalid-feedback">
+											Ingrese un sexo.
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<label for="direccionNuevo" class="form-label">Dirección</label>
+									<div class="input-group has-validation">
+										<input type="text" class="form-control" id="direccionNuevo" autocomplete="off"
+											required>
+										<div class="invalid-feedback">
+											Ingrese una dirección.
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<label for="telefonoNuevo" class="form-label">Telefono</label>
+									<div class="input-group has-validation">
+										<input type="text" class="form-control" id="telefonoNuevo" autocomplete="off"
+											required>
+										<div class="invalid-feedback">
+											Ingrese un telefono.
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<label for="correoNuevo" class="form-label">Correo</label>
+									<div class="input-group has-validation">
+										<input type="text" class="form-control" id="correoNuevo" autocomplete="off"
+											required>
+										<div class="invalid-feedback">
+											Ingrese un correo.
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<label for="observacionesNuevo" class="form-label">Observaciones</label>
+									<div class="input-group">
+										<input type="text" class="form-control" id="observacionesNuevo"
+											autocomplete="off">
+									</div>
+								</div>
+								<div class="col-auto">
+									<br>
+									<button type="submit" class="btn btn-success"><i
+											class="fas fa-check"></i>Reservar</button>
+								</div>
 							</form>
-
-							<br>
 						</div>
 					</div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <script src="js/datatables.js"></script>
+				</div>
+				<div class="col-xl-12" id="contenido">
+					<div class="card">
+						<div class="card-header pb-0">
+							<h5 class="card-title mb-0">Huespedes</h5>
+						</div>
+						<div class="card-body">
+							<table id="tabla-huespedes" class="table table-hover" style="width:100%">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script src="js/datatables.js"></script>
 	<script src="js/huespedes.js"></script>
-    <script>
-        document.getElementById('huespedes').className = 'sidebar-item active'
-    </script>
-<%- include('template/footer'); %>
+	<script>
+		document.getElementById('huespedes').className = 'sidebar-item active'
+	</script>
+	<%- include('template/footer'); %>

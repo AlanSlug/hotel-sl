@@ -1,8 +1,30 @@
 'use strict'
 
+var tablaHuespedes = $('#tabla-reservaciones').DataTable({
+    ajax: {
+        url: '/api/reservation',
+        method: "GET",
+        dataSrc: 'reservations'
+    },
+    columns: [
+        { title: "id", data: "_id" },
+        { title: "Check-in", data: "checkin" },
+        { title: "Check-out", data: "checkout" },
+        { title: "Noches", data: "noches"},
+        { title: "Huesped", data: "huesped.nombre"},
+        { title: "Habitación", data: "habitacion.id" },
+        { title: "Costo", data: "costo" }
+    ],
+    dom: 'Bfrtip',
+    buttons: ["copy", "print"],
+    rowCallback: function (row, reservation) {
+        $('td:eq(6)', row).html(formatoCifras(reservation.costo))
+    }
+});
+
 $(function () {
     let fecha = new Date()
-    fecha = (fecha.getMonth()+1) + '/' + fecha.getDate() + '/' + fecha.getFullYear()
+    fecha = (fecha.getMonth() + 1) + '/' + fecha.getDate() + '/' + fecha.getFullYear()
     console.log('Fecha ' + fecha)
     $('input[name="datefilter"]').daterangepicker({
         minDate: fecha,
@@ -21,6 +43,16 @@ $(function () {
 });
 var habitacionSeleccionada = {};
 var huespedSeleccionada = {};
+var data = {}
+
+function cerrarPanel() {
+    document.getElementById('panel-reservacion').className = 'card panel-info-none'
+}
+
+document.getElementById('agregar-reservacion').addEventListener("click", function (event) {
+    event.preventDefault()
+    document.getElementById('panel-reservacion').className = 'card panel-info-show'
+}, false)
 
 //validar formulario
 var forms = document.querySelectorAll('#reservacion-formulario')
@@ -33,11 +65,43 @@ Array.prototype.slice.call(forms)
             } else {
                 event.preventDefault()
                 event.stopPropagation()
-               alert('Correcto')
+                resumenReservacion()
             }
             form.classList.add('was-validated')
         }, false)
     })
+
+function resumenReservacion() {
+    let fecha = document.getElementById('fechas').value.split('-')
+    data.checkin = fecha[0]
+    data.checkout = fecha[1]
+    data.noches = obtenerNoches(data.checkin, data.checkout)
+    data.nombrehuesped = document.getElementById('huespedText').value
+    data.numHabitacion = document.getElementById('habitacionText').value
+    data.adultos = document.getElementById('numAdultos').value
+    data.ninos = document.getElementById('numNinos').value
+    data.costo = habitacionSeleccionada.precio * data.noches
+    data.huesped = huespedSeleccionada
+    data.habitacion = habitacionSeleccionada
+
+    document.getElementById('checkin').innerHTML = data.checkin
+    document.getElementById('checkout').innerHTML = data.checkout
+    document.getElementById('huesped').innerHTML = data.nombrehuesped
+    document.getElementById('habitacion').innerHTML = data.numHabitacion
+    document.getElementById('precio').innerHTML = formatoCifras(data.costo)
+    document.getElementById('noches').innerHTML = data.noches
+    document.getElementById('adultos').innerHTML = data.adultos
+    document.getElementById('ninos').innerHTML = data.ninos
+    $("#modalReservacion").modal("show");
+}
+
+function obtenerNoches(f1, f2) {
+    var aFecha1 = new Date(f1)
+    var aFecha2 = new Date(f2)
+    var dif = aFecha2 - aFecha1;
+    var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+    return dias;
+}
 
 document.getElementById('reservaciones').className = 'sidebar-item active'
 var tablaHAbitaciones = $('#tabla-habitaciones').DataTable({
@@ -61,7 +125,7 @@ var tablaHAbitaciones = $('#tabla-habitaciones').DataTable({
 tablaHAbitaciones.on('select', function (e, dt, type, indexes) {
     let rowData = tablaHAbitaciones.rows(indexes).data().toArray();
     document.getElementById("habitacionText").value = rowData[0].id
-    habitacionSeleccionada =  rowData[0]
+    habitacionSeleccionada = rowData[0]
 });
 
 var tablaHuespedes = $('#tabla-huespedes').DataTable({
@@ -126,4 +190,38 @@ function formatoCifras(monto) {
         m = "-" + m
     }
     return "$" + m
+}
+
+//REST API
+function saveReservation() {
+    cerrarPanel()
+    if (data) {
+        fetch('/api/reservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.status == 200) {
+                    response.json().then(data => {
+                        tablaHuespedes.ajax.reload()
+                        swal("Tarea con exito!", "Se ha registrado la reservación correctamente!", "success");
+                    }).catch(err => {
+                        console.log('error al agregar ' + err)
+                        swal("Algo salio mal!", 'error al agregar ' + err, "error");
+                    })
+                } else {
+                    response.text().then(text => {
+                        console.log('No actualizado ' + text)
+                        swal("Algo salio mal!", 'No actualizado ' + text, "error");
+                    })
+                }
+            })
+            .catch(err => {
+                console.log('error ' + JSON.stringify(err))
+                swal("Algo salio mal!", 'error ' + JSON.stringify(err), "error");
+            })
+    }
 }

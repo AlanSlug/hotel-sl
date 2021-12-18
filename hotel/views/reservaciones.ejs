@@ -8,11 +8,64 @@
                     <h1 class="h3 mb-3"><strong>Reservaciones</strong></h1>
                 </div>
                 <div class="col-6">
-                    <a href="" class="btn btn-primary float-end mt-n1" id="agregar-huesped">
+                    <a href="" class="btn btn-primary float-end mt-n1" id="agregar-reservacion">
                         <i class="align-middle" data-feather="plus"></i> Nueva reservación</a>
                 </div>
             </div>
             <!-- Modal -->
+            <div class="modal fade" id="modalReservacion" tabindex="-1" aria-hidden="false">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Resumen de la reservación!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body m-3">
+                            <table class="table table-sm mt-2 mb-4">
+                                <tbody>
+                                    <tr>
+                                        <th>Check-in</th>
+                                        <td id="checkin"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Check-out</th>
+                                        <td id="checkout"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Huesped</th>
+                                        <td id="huesped"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Habitacion</th>
+                                        <td id="habitacion"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Precio</th>
+                                        <td id="precio"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Noches</th>
+                                        <td id="noches"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Adultos</th>
+                                        <td id="adultos"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Niños</th>
+                                        <td id="ninos"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-success" id="aceptar-reservacion"
+                            data-bs-dismiss="modal" onclick="saveReservation()">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="modalHabitaciones" tabindex="-1" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -54,17 +107,31 @@
 
             <div class="row">
                 <br><br>
-                <div class="col-xl-12">
+                <div class="col-xl-12 panel-info-none" id="panel-reservacion">
                     <div class="card">
-                        <div class="card-header pb-0">
-                            <h5 class="card-title mb-0">Nueva reservación</h5>
-                        </div>
+                        <div class="card-header">
+							<div class="card-actions float-end">
+								<div class="dropdown position-relative">
+									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle">
+											<circle cx="12" cy="12" r="1"></circle>
+											<circle cx="19" cy="12" r="1"></circle>
+											<circle cx="5" cy="12" r="1"></circle>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-end">
+										<a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
+									</div>
+								</div>
+							</div>
+							<h5 class="card-title mb-0" id="ver-numero-habitacion">Nueva reservación</h5>
+						</div>
                         <div class="card-body">
                                 <form class="row gx-3 gy-2 align-items-center needs-validation" id="reservacion-formulario" novalidate>
                                     <div class="col-auto">
                                         <label for="fechas" class="form-label">Fechas de reservación</label>
                                         <div class="input-group has-validation">
-                                            <input id="fechas" type="text" name="datefilter" value="" required/>
+                                            <input id="fechas" type="text" name="datefilter" autocomplete="off" value="" required/>
                                             <span class="input-group-text"><i class="fa fa-calendar"
                                                     aria-hidden="true"></i></span>
                                                     <div class="invalid-feedback">
@@ -75,7 +142,7 @@
                                     <div class="col-sm-3"data-bs-toggle="modal" data-bs-target="#modalHuespedes">
                                         <label for="huespedText" class="form-label">Huesped</label>
                                         <div class="input-group has-validation">
-                                            <input type="text" class="form-control" id="huespedText" placeholder="Nombre..." required style="cursor: pointer;">
+                                            <input type="text" class="form-control" id="huespedText" autocomplete="off" placeholder="Nombre..." required style="cursor: pointer;">
                                             <div class="input-group-text" style="cursor: pointer;">
                                                 <i class="fa fa-user" aria-hidden="true"></i>
                                             </div>
@@ -87,7 +154,7 @@
                                     <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHabitaciones">
                                         <label for="habitacionText" class="form-label">Habitación</label>
                                         <div class="input-group ">
-                                            <input type="text" class="form-control" id="habitacionText" placeholder="Número habitación..."  style="cursor: pointer;" required>
+                                            <input type="text" class="form-control" id="habitacionText" autocomplete="off" placeholder="Número habitación..."  style="cursor: pointer;" required>
                                             <div class="input-group-text" style="cursor: pointer;">
                                                 <i class="fa fa-bed" aria-hidden="true"></i></i>
                                             </div>
@@ -133,76 +200,7 @@
                             <h5 class="card-title mb-0">Reservaciones</h5>
                         </div>
                         <div class="card-body">
-                            <table id="tabla-reservaciones" class="table table-striped" style="width:100%">
-                            </table>
-                            <table class="table table-hover my-0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th class="d-none d-xl-table-cell">Check-in</th>
-                                        <th class="d-none d-xl-table-cell">Check-out</th>
-                                        <th>Estatus</th>
-                                        <th class="d-none d-md-table-cell">Habitación</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>RE012</td>
-                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">22/11/2021</td>
-                                        <td><span class="badge bg-success">Entregada</span></td>
-                                        <td class="d-none d-md-table-cell">SU001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE013</td>
-                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">22/11/2021</td>
-                                        <td><span class="badge bg-danger">Cancelled</span></td>
-                                        <td class="d-none d-md-table-cell">SU001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE016</td>
-                                        <td class="d-none d-xl-table-cell">21/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">23/11/2021</td>
-                                        <td><span class="badge bg-success">Entregada</span></td>
-                                        <td class="d-none d-md-table-cell">SE001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE021</td>
-                                        <td class="d-none d-xl-table-cell">19/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">24/11/2021</td>
-                                        <td><span class="badge bg-warning">Corriendo</span></td>
-                                        <td class="d-none d-md-table-cell">SE011</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE031</td>
-                                        <td class="d-none d-xl-table-cell">01/01/2021</td>
-                                        <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                        <td><span class="badge bg-success">Entregada</span></td>
-                                        <td class="d-none d-md-table-cell">DO001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE015</td>
-                                        <td class="d-none d-xl-table-cell">15/01/2021</td>
-                                        <td class="d-none d-xl-table-cell">18/06/2021</td>
-                                        <td><span class="badge bg-success">Entregada</span></td>
-                                        <td class="d-none d-md-table-cell">SE001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE014</td>
-                                        <td class="d-none d-xl-table-cell">13/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">15/16/2021</td>
-                                        <td><span class="badge bg-success">Entregada</span></td>
-                                        <td class="d-none d-md-table-cell">SE002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RE032</td>
-                                        <td class="d-none d-xl-table-cell">11/11/2021</td>
-                                        <td class="d-none d-xl-table-cell">31/11/2021</td>
-                                        <td><span class="badge bg-warning">Corriendo</span></td>
-                                        <td class="d-none d-md-table-cell">PE001</td>
-                                    </tr>
-                                </tbody>
+                            <table id="tabla-reservaciones" class="table table-hover" style="width:100%">
                             </table>
                         </div>
                     </div>

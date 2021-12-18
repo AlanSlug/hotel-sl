@@ -17,10 +17,9 @@ var userController = {
         userSchema.find({}).exec((err, users) => {
             if (err) return res.status(500).send({ message: 'Error al devolver los datos ' + err })
             if (!users) return res.status(404).send({ message: 'No hay usuarios' })
-           for (let i = 0; i < users.length; i++) {
-            users[i] = usuarioFront(users[i])
-               
-           }
+            for (let i = 0; i < users.length; i++) {
+                users[i] = usuarioFront(users[i])
+            }
             return res.status(200).send({ users })
         })
     }, saveUser: function (req, res) {

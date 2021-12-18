@@ -10,6 +10,7 @@ const flash = require('connect-flash')
 const roomRoutes = require('./routes/room')
 const guestRoutes = require('./routes/guest')
 const userRoutes = require('./routes/user')
+const reservationRoutes = require('./routes/reservation')
 
 //Motor de plantillas
 app.set('view engine', 'ejs')
@@ -48,7 +49,7 @@ app.get('/login', (req, res) => {
     res.render("login")
 })
 app.get('', (req, res) => {
-    res.render("login")
+    res.render("home")
 })
 app.get('/home', (req, res) => {
     res.render("home")
@@ -67,6 +68,7 @@ app.get('/reservaciones', (req, res) => {
 app.use('/api', roomRoutes)
 app.use('/api', guestRoutes)
 app.use('/api', userRoutes)
+app.use('/api', reservationRoutes)
 app.get('/test', (req, res) => {
     res.status(200).send({
         message: "Hola mundo desde mi API de Node.js"
