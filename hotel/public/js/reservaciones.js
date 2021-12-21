@@ -1,6 +1,6 @@
 'use strict'
 
-var tablaHuespedes = $('#tabla-reservaciones').DataTable({
+var tablaReservaciones = $('#tabla-reservaciones').DataTable({
     ajax: {
         url: '/api/reservation',
         method: "GET",
@@ -206,8 +206,8 @@ function saveReservation() {
             .then(response => {
                 if (response.status == 200) {
                     response.json().then(data => {
-                        tablaHuespedes.ajax.reload()
                         swal("Tarea con exito!", "Se ha registrado la reservación correctamente!", "success");
+                        tablaReservaciones.ajax.reload()
                     }).catch(err => {
                         console.log('error al agregar ' + err)
                         swal("Algo salio mal!", 'error al agregar ' + err, "error");

@@ -7,7 +7,7 @@ var GuestSchema = Schema({
     nombre: String,
     apellidoPaterno: String,
     apellidoMaterno: String,
-    dirección: String,
+    direccion: String,
     sexo: String,
     telefono: String,
     correo: String,
