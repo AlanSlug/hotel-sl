@@ -61,7 +61,9 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="button" class="btn btn-success" id="aceptar-reservacion"
-                            data-bs-dismiss="modal" onclick="saveReservation()">Reservar</button>
+                                data-bs-dismiss="modal" onclick="saveReservation()">Reservar</button>
+                            <button type="button" class="btn btn-success" id="modificar-reservacion"
+                                data-bs-dismiss="modal" onclick="modificarReservation()">Modificar</button>
                         </div>
                     </div>
                 </div>
@@ -104,93 +106,261 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <br><br>
                 <div class="col-xl-12 panel-info-none" id="panel-reservacion">
-                    <div class="card">
+                    <div class="card" id="nuevaReservacion">
                         <div class="card-header">
-							<div class="card-actions float-end">
-								<div class="dropdown position-relative">
-									<a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="">
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle">
-											<circle cx="12" cy="12" r="1"></circle>
-											<circle cx="19" cy="12" r="1"></circle>
-											<circle cx="5" cy="12" r="1"></circle>
-										</svg>
-									</a>
-									<div class="dropdown-menu dropdown-menu-end">
-										<a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
-									</div>
-								</div>
-							</div>
-							<h5 class="card-title mb-0" id="ver-numero-habitacion">Nueva reservación</h5>
-						</div>
+                            <div class="card-actions float-end">
+                                <div class="dropdown position-relative">
+                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+                                        class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-more-horizontal align-middle">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0" id="ver-numero-habitacion">Nueva reservación</h5>
+                        </div>
                         <div class="card-body">
-                                <form class="row gx-3 gy-2 align-items-center needs-validation" id="reservacion-formulario" novalidate>
-                                    <div class="col-auto">
-                                        <label for="fechas" class="form-label">Fechas de reservación</label>
-                                        <div class="input-group has-validation">
-                                            <input id="fechas" type="text" name="datefilter" autocomplete="off" value="" required/>
-                                            <span class="input-group-text"><i class="fa fa-calendar"
-                                                    aria-hidden="true"></i></span>
-                                                    <div class="invalid-feedback">
-                                                        Ingresa una fecha.
-                                                    </div>
+                            <form class="row gx-3 gy-2 align-items-center needs-validation" id="reservacion-formulario"
+                                novalidate>
+                                <div class="col-auto">
+                                    <label for="fechasNueva" class="form-label">Fechas de reservación</label>
+                                    <div class="input-group has-validation">
+                                        <input id="fechasNueva" type="text" name="datefilter" autocomplete="off"
+                                            value="" required />
+                                        <span class="input-group-text"><i class="fa fa-calendar"
+                                                aria-hidden="true"></i></span>
+                                        <div class="invalid-feedback">
+                                            Ingresa una fecha.
                                         </div>
                                     </div>
-                                    <div class="col-sm-3"data-bs-toggle="modal" data-bs-target="#modalHuespedes">
-                                        <label for="huespedText" class="form-label">Huesped</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" class="form-control" id="huespedText" autocomplete="off" placeholder="Nombre..." required style="cursor: pointer;">
-                                            <div class="input-group-text" style="cursor: pointer;">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Escoja un huesped.
-                                            </div>
+                                </div>
+                                <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHuespedes">
+                                    <label for="huespedNueva" class="form-label">Huesped</label>
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="huespedNueva" autocomplete="off"
+                                            placeholder="Nombre..." required style="cursor: pointer;">
+                                        <div class="input-group-text" style="cursor: pointer;">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Escoja un huesped.
                                         </div>
                                     </div>
-                                    <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHabitaciones">
-                                        <label for="habitacionText" class="form-label">Habitación</label>
-                                        <div class="input-group ">
-                                            <input type="text" class="form-control" id="habitacionText" autocomplete="off" placeholder="Número habitación..."  style="cursor: pointer;" required>
-                                            <div class="input-group-text" style="cursor: pointer;">
-                                                <i class="fa fa-bed" aria-hidden="true"></i></i>
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Ingresa una habitación.
-                                            </div>
+                                </div>
+                                <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHabitaciones">
+                                    <label for="habitacionNueva" class="form-label">Habitación</label>
+                                    <div class="input-group ">
+                                        <input type="text" class="form-control" id="habitacionNueva" autocomplete="off"
+                                            placeholder="Número habitación..." style="cursor: pointer;" required>
+                                        <div class="input-group-text" style="cursor: pointer;">
+                                            <i class="fa fa-bed" aria-hidden="true"></i></i>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Ingresa una habitación.
                                         </div>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label for="numAdultos" class="form-label">Adultos</label>
-                                        <label class="visually-hidden" for="specificSizeSelect">Preference</label>
-                                        <select class="form-select" id="numAdultos">
-                                            <option selected="">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                        </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="numAdultosNueva" class="form-label">Adultos</label>
+                                    <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                    <select class="form-select" id="numAdultosNueva">
+                                        <option selected="">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="numNinosNueva" class="form-label">Ninos</label>
+                                    <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                    <select class="form-select" id="numNinosNueva">
+                                        <option selected="">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <br>
+                                    <button type="submit" class="btn btn-success"><i
+                                            class="fas fa-check"></i>Reservar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card" id="modificarReservacion">
+                        <div class="card-header">
+                            <div class="card-actions float-end">
+                                <div class="dropdown position-relative">
+                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+                                        class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-more-horizontal align-middle">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label for="numNinos" class="form-label">Ninos</label>
-                                        <label class="visually-hidden" for="specificSizeSelect">Preference</label>
-                                        <select class="form-select" id="numNinos">
-                                            <option selected="">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0" id="ver-numero-habitacion">Modificar reservación</h5>
+                        </div>
+                        <div class="card-body">
+                            <form class="row gx-3 gy-2 align-items-center needs-validation" id="modificar-formulario"
+                                novalidate>
+                                <div class="col-auto">
+                                    <label for="fechasModificar" class="form-label">Fechas de reservación</label>
+                                    <div class="input-group has-validation">
+                                        <input id="fechasModificar" type="text" name="datefilter" autocomplete="off"
+                                            value="" required />
+                                        <span class="input-group-text"><i class="fa fa-calendar"
+                                                aria-hidden="true"></i></span>
+                                        <div class="invalid-feedback">
+                                            Ingresa una fecha.
+                                        </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <br>
-                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Reservar</button>
+                                </div>
+                                <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHuespedes">
+                                    <label for="huespedModificar" class="form-label">Huesped</label>
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="huespedModificar" autocomplete="off"
+                                            placeholder="Nombre..." required style="cursor: pointer;">
+                                        <div class="input-group-text" style="cursor: pointer;">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Escoja un huesped.
+                                        </div>
                                     </div>
-                                </form>
+                                </div>
+                                <div class="col-sm-3" data-bs-toggle="modal" data-bs-target="#modalHabitaciones">
+                                    <label for="habitacionModificar" class="form-label">Habitación</label>
+                                    <div class="input-group ">
+                                        <input type="text" class="form-control" id="habitacionModificar"
+                                            autocomplete="off" placeholder="Número habitación..."
+                                            style="cursor: pointer;" required>
+                                        <div class="input-group-text" style="cursor: pointer;">
+                                            <i class="fa fa-bed" aria-hidden="true"></i></i>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Ingresa una habitación.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="numAdultosModificar" class="form-label">Adultos</label>
+                                    <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                    <select class="form-select" id="numAdultosModificar">
+                                        <option selected="">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="numNinosModificar" class="form-label">Ninos</label>
+                                    <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                                    <select class="form-select" id="numNinosModificar">
+                                        <option selected="">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <br>
+                                    <button type="submit" class="btn btn-success"><i
+                                            class="fas fa-check"></i>Modificar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card" id="verReservacion">
+                        <div class="card-header">
+                            <div class="card-actions float-end">
+                                <div class="dropdown position-relative">
+                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+                                        class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-more-horizontal align-middle">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#" onclick="cerrarPanel()">Cerrar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0">Ver reservación</h5>
+                        </div>
+                        <div class="card-body row gx-3 gy-2 align-items-center">
+                            <div class="col-auto">
+                                <label form="verFecha" class="form-label">Fechas de reservación</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="verFecha" disabled>
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="huespedVer" class="form-label">Huesped</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="huespedVer" disabled>
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="habitacionVer" class="form-label">Habitación</label>
+                                <div class="input-group ">
+                                    <input type="text" class="form-control" id="habitacionVer" disabled>
+                                    <div class="input-group-text">
+                                        <i class="fa fa-bed" aria-hidden="true"></i></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <label for="numAdultosVer" class="form-label">Adultos</label>
+                                <input type="text" class="form-control" id="numAdultosVer" disabled>
+                            </div>
+                            <div class="col-sm-1">
+                                <label for="numNinosVer" class="form-label">Ninos</label>
+                                <input type="text" class="form-control" id="numNinosVer" disabled>
+                            </div>
+                            <div class="col-auto">
+                                <br>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check"
+                                        onclick="cerrarPanel()"></i>Cerrar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
